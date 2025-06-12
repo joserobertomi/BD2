@@ -64,6 +64,18 @@
 | Tipo                  | Descrição                          | Exemplo                                             |
 | --------------------- | ---------------------------------- | --------------------------------------------------- |
 | Subquery em `IN`      | Lista de valores para filtrar      | `WHERE p.id IN (SELECT idpessoa FROM telefone ...)` |
-| Subquery com `HAVING` | Filtros após agregação em subquery | `HAVING COUNT(*) > 2`                               |
+| Subquery com `HAVING` | Filtra os grupos agregados (como se fosse um WHERE após o GROUP BY) | `HAVING COUNT(*) > 2`                               |
 
 ---
+
+### Exemplo
+
+```sql
+SELECT p.nome, COUNT(*) AS qtd_telefones
+FROM pessoa p
+JOIN telefone t ON p.id = t.idpessoa
+WHERE p.sexo = 'F'
+GROUP BY p.id, p.nome
+HAVING COUNT(*) > 1
+ORDER BY qtd_telefones DESC;
+```
